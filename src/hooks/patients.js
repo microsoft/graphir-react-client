@@ -25,6 +25,40 @@ const GET_PATIENT = gql`
   }
 `;
 
+const GET_PATIENT_DASHBOARD = gql`
+  query ($patientId: String!) {
+    Patient(id: $patientId) {
+      id
+      name {
+        given
+        family
+      }
+      generalPractitioner {
+        reference
+      }
+    }
+    AppointmentList(patient: $patientId) {
+      id
+      start
+      end
+      description
+    }
+  }
+`;
+
+function usePatientDashboard(patientId) {
+  const { data, loading, error } = useGraphQl(
+    async (client) =>
+      await client.query({ query: GET_PATIENT_DASHBOARD, variables: { patientId } })
+  );
+
+  return {
+    data,
+    loading,
+    error,
+  };
+}
+
 function usePatientsList() {
   const { data, loading, error } = useGraphQl(
     async (client) => await client.query({ query: GET_PATIENT_LIST })
@@ -50,4 +84,4 @@ function usePatient(patientId) {
   };
 }
 
-export { usePatientsList, usePatient };
+export { usePatientsList, usePatient, usePatientDashboard };
