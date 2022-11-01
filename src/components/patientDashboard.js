@@ -4,6 +4,7 @@ import { usePatientDashboard } from "../hooks/patients";
 import AppointmentList from "./appointmentList";
 import Loading from "./loading";
 import PatientInfo from "./patientInfo";
+import Error from "./error";
 
 function PatientDashboard() {
   const { patientId } = useParams();
@@ -13,7 +14,7 @@ function PatientDashboard() {
   return loading ? (
     <Loading />
   ) : error ? (
-    <>An error occured loading dashboard {error}</>
+    <Error error={error} />
   ) : (
     <>
       <PatientInfo patient={data?.Patient} />
