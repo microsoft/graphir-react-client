@@ -3,11 +3,13 @@ import { usePatient } from "../hooks/patients";
 import { useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
+import Loading from "./loading";
+import Error from "./error";
 
 function Patient() {
   const patient = (data, error) => {
     return error ? (
-      <div>An error occured loading the patients list: {error}</div>
+      <Error error={error} />
     ) : (
       <Card style={{ width: "18rem" }}>
         <Card.Body>
@@ -34,7 +36,7 @@ function Patient() {
 
   const { data, error, loading } = usePatient(patientId);
 
-  return loading ? <>Loading...</> : <>{patient(data, error)}</>;
+  return loading ? <Loading /> : <>{patient(data, error)}</>;
 }
 
 export default Patient;

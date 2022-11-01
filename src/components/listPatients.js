@@ -5,6 +5,8 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
+import Loading from "./loading";
+import Error from "./error";
 
 function ListPatients() {
   const { data, loading, error } = usePatientsList();
@@ -12,14 +14,14 @@ function ListPatients() {
   const patientsList = (data, error) => {
     return error ? (
       <>
-        <div>An error occured loading the patients list: {error}</div>
+        <Error error={error} />
       </>
     ) : (
       <Row>
         {data?.PatientList?.map((patient) => {
           return (
             <Col className="mb-4" key={patient?.id}>
-              <Card style={{ width: "18rem", height:"16rem" }}>
+              <Card style={{ width: "18rem", height: "16rem" }}>
                 <Card.Body>
                   <Card.Title>{`${patient?.name[0]?.given[0]} ${patient?.name[0]?.family}`}</Card.Title>
                   <Card.Text>
@@ -38,11 +40,7 @@ function ListPatients() {
     );
   };
 
-  return loading ? (
-    <>Loading...</>
-  ) : (
-    <>{patientsList(data, error)}</>
-  );
+  return loading ? <Loading /> : <>{patientsList(data, error)}</>;
 }
 
 export default ListPatients;
