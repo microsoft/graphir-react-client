@@ -1,36 +1,23 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { usePatientDashboard } from "../hooks/patients";
+import AppointmentList from "./appointmentList";
+import Loading from "./loading";
+import PatientInfo from "./patientInfo";
 
 function PatientDashboard() {
   const { patientId } = useParams();
 
   const { data, loading, error } = usePatientDashboard(patientId);
 
-  const AppointmentList = (data) => {
-    return data?.AppointmentList?.map((appointment) => (
-      <li key={appointment.id}>
-        {appointment.start} - {appointment.end} - {appointment.description}
-      </li>
-    ));
-  };
-
-  const PatientInfo = (data) => {
-    return (
-      <div>
-        <h1>{`${data?.Patient?.name[0]?.given[0]} ${data?.Patient?.name[0]?.family}`}</h1>
-      </div>
-    );
-  };
-
   return loading ? (
-    <>Loading...</>
+    <Loading />
   ) : error ? (
     <>An error occured loading dashboard {error}</>
   ) : (
     <>
-      {PatientInfo(data)}
-      {AppointmentList(data)}
+      <PatientInfo patient={data?.Patient} />
+      <AppointmentList appointmentList={data?.AppointmentList} />
     </>
   );
 }

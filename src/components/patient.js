@@ -3,6 +3,7 @@ import { usePatient } from "../hooks/patients";
 import { useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
+import Loading from "./loading";
 
 function Patient() {
   const patient = (data, error) => {
@@ -34,7 +35,7 @@ function Patient() {
 
   const { data, error, loading } = usePatient(patientId);
 
-  return loading ? <>Loading...</> : <>{patient(data, error)}</>;
+  return loading ? <Loading /> : <>{patient(data, error)}</>;
 }
 
 export default Patient;

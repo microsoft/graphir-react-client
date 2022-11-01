@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
+import Loading from "./loading";
 
 function ListPatients() {
   const { data, loading, error } = usePatientsList();
@@ -39,7 +40,7 @@ function ListPatients() {
   };
 
   return loading ? (
-    <>Loading...</>
+    <Loading />
   ) : (
     <>{patientsList(data, error)}</>
   );
