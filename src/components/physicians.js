@@ -8,17 +8,17 @@ import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import Loading from "./loading";
 import Error from "./error";
+import _ from "lodash";
 
 function Physicians() {
   const [familyName, setFamilyName] = useState("");
 
   const { data, loading, error } = useSearchPatientsByFamilyName(familyName);
 
-  function handleChange(event) {
+  const handleChange = _.debounce((event) => {
     const { value } = event.target;
     setFamilyName(value);
-  }
-
+  }, 500);
 
 
   const patientsList = (data, error) => {
@@ -60,7 +60,6 @@ function Physicians() {
           <Form.Control
             type="familyName"
             placeholder="Enter family name"
-            value={familyName}
             onChange={handleChange}
           />
           <Form.Text className="text-muted">

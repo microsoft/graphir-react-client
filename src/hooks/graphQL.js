@@ -15,7 +15,7 @@ function useGraphQl(apiFunc, args) {
   const [loading, setLoading] = useState(true);
   const [apolloClient, setApolloClient] = useState(null);
   const deps = args ? [...args] : [];
-  
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const func = useCallback(apiFunc, deps);
 
