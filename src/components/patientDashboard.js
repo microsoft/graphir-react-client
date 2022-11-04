@@ -9,7 +9,9 @@ import Error from "./error";
 function PatientDashboard() {
   const { patientId } = useParams();
 
-  const { data, loading, error } = usePatientDashboard(patientId);
+  const id = patientId ? patientId : "30163";
+
+  const { data, loading, error } = usePatientDashboard(id);
 
   return loading ? (
     <Loading />
