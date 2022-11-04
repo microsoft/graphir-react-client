@@ -49,7 +49,10 @@ const GET_PATIENT_DASHBOARD = gql`
 function usePatientDashboard(patientId) {
   const { data, loading, error } = useGraphQl(
     async (client) =>
-      await client.query({ query: GET_PATIENT_DASHBOARD, variables: { patientId } })
+      await client.query({
+        query: GET_PATIENT_DASHBOARD,
+        variables: { patientId },
+      })
   );
 
   return {

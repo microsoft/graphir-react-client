@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   ApolloLink,
   HttpLink,
@@ -9,12 +9,25 @@ import { useMsalAuthentication } from "@azure/msal-react";
 import { InteractionType } from "@azure/msal-browser";
 import { graphirTokenRequest, graphirEndpoint } from "../authConfig";
 
-function useGraphQl(apiFunc) {
+function useGraphQl(apiFunc, args) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [apolloClient, setApolloClient] = useState(null);
-  const func = useRef(apiFunc);
+  const deps = args ? [...args] : [];
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const func = useCallback(apiFunc, deps);
+
+  const request = useCallback(
+    async (data, options) => {
+      if (apolloClient) {
+        const result = await func(apolloClient, data, options);
+        return result.data;
+      }
+    },
+    [func, apolloClient]
+  );
 
   const { result } = useMsalAuthentication(
     InteractionType.Silent,
@@ -46,16 +59,6 @@ function useGraphQl(apiFunc) {
     }
   }, [result, setApolloClient]);
 
-  const request = useCallback(
-    async (data, options) => {
-      if (apolloClient) {
-        const result = await func.current(apolloClient, data, options);
-        return result.data;
-      }
-    },
-    [func, apolloClient]
-  );
-
   useEffect(() => {
     setLoading(true);
     request()
@@ -72,6 +75,7 @@ function useGraphQl(apiFunc) {
     data,
     error,
     loading,
+    request,
   };
 }
 
