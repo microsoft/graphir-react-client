@@ -20,7 +20,6 @@ function Physicians() {
     setFamilyName(value);
   }, 500);
 
-
   const patientsList = (data, error) => {
     return error ? (
       <>

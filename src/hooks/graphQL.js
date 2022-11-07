@@ -29,7 +29,6 @@ function useGraphQl(apiFunc, args) {
     [func, apolloClient]
   );
 
-
   const { instance, accounts } = useMsal();
   const account = useAccount(accounts[0] || {});
 
