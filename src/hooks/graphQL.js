@@ -36,7 +36,7 @@ function useGraphQl(apiFunc, args) {
 
   useEffect(() => {
     if (result) {
-      const httpLink = new HttpLink({ uri: graphirEndpoint.prod });
+      const httpLink = new HttpLink({ uri: graphirEndpoint.prod }); // switch to 'dev' for local graphir
 
       const authLink = new ApolloLink((operation, forward) => {
         // Use the setContext method to set the HTTP headers.
