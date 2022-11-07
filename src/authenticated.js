@@ -10,11 +10,15 @@ function Authenticated() {
     <>
       <BrowserRouter>
         <Routes>
-            <Route path="/patients" element={<ListPatients />} />
-            <Route path="/patients/:patientId" element={<Patient />} />
-            <Route path='/physicians' element={<Physicians />} />
-            <Route path="/patients/:patientId/dashboard" element={<PatientDashboard />} />
-            <Route path="/" element={<PatientDashboard />} />
+          <Route path="/patients" element={<ListPatients />} />
+          <Route path="/patients/:patientId" element={<Patient />} />
+          <Route path="/physicians" element={<Physicians />} />
+          <Route
+            path="/patients/:patientId/dashboard"
+            element={<PatientDashboard />}
+          />
+          <Route path="/dashboard" element={<PatientDashboard />} />
+          <Route path="/" element={<PatientDashboard />} />
         </Routes>
       </BrowserRouter>
     </>

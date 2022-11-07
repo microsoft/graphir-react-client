@@ -13,7 +13,7 @@ function PatientDashboard() {
 
   const { data, loading, error } = usePatientDashboard(id);
 
-  return loading ? (
+  return loading || !data ? (
     <Loading />
   ) : error ? (
     <Error error={error} />

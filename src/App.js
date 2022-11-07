@@ -1,17 +1,26 @@
 import "./App.css";
-import { useIsAuthenticated } from "@azure/msal-react";
-import { SignInButton } from "./auth/signin";
+import {
+  useMsalAuthentication,
+  AuthenticatedTemplate,
+  UnauthenticatedTemplate,
+} from "@azure/msal-react";
+import { InteractionType } from "@azure/msal-browser";
+import { loginRequest } from "./authConfig";
 import Authenticated from "./authenticated";
 import MainLayout from "./layout/mainLayout";
 
 function App() {
-  const isAuthenticated = useIsAuthenticated();
+  useMsalAuthentication(InteractionType.Redirect, loginRequest);
 
   return (
     <div className="App">
       <MainLayout>
-        {!isAuthenticated && <SignInButton />}
-        {isAuthenticated && <Authenticated />}
+        <AuthenticatedTemplate>
+          <Authenticated />
+        </AuthenticatedTemplate>
+        <UnauthenticatedTemplate>
+          <p>Please wait while you are signed in.</p>
+        </UnauthenticatedTemplate>
       </MainLayout>
     </div>
   );

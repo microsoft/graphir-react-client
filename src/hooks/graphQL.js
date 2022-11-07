@@ -5,12 +5,12 @@ import {
   InMemoryCache,
   ApolloClient,
 } from "@apollo/client";
-import { useMsalAuthentication } from "@azure/msal-react";
-import { InteractionType } from "@azure/msal-browser";
+import { useMsal, useAccount } from "@azure/msal-react";
 import { graphirTokenRequest, graphirEndpoint } from "../authConfig";
 
 function useGraphQl(apiFunc, args) {
   const [data, setData] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [apolloClient, setApolloClient] = useState(null);
@@ -29,20 +29,31 @@ function useGraphQl(apiFunc, args) {
     [func, apolloClient]
   );
 
-  const { result } = useMsalAuthentication(
-    InteractionType.Silent,
-    graphirTokenRequest
-  );
+  const { instance, accounts } = useMsal();
+  const account = useAccount(accounts[0] || {});
 
   useEffect(() => {
-    if (result) {
+    if (account) {
+      instance
+        .acquireTokenSilent({
+          ...graphirTokenRequest,
+          account: account,
+        })
+        .then((response) => {
+          if (response) setAccessToken(response.accessToken);
+        });
+    }
+  }, [account, instance]);
+
+  useEffect(() => {
+    if (accessToken) {
       const httpLink = new HttpLink({ uri: graphirEndpoint.prod }); // switch to 'dev' for local graphir
 
       const authLink = new ApolloLink((operation, forward) => {
         // Use the setContext method to set the HTTP headers.
         operation.setContext({
           headers: {
-            authorization: result ? `Bearer ${result.accessToken}` : "",
+            authorization: accessToken ? `Bearer ${accessToken}` : "",
           },
         });
 
@@ -57,7 +68,7 @@ function useGraphQl(apiFunc, args) {
         })
       );
     }
-  }, [result, setApolloClient]);
+  }, [accessToken, setApolloClient]);
 
   useEffect(() => {
     setLoading(true);
