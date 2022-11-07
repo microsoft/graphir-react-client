@@ -16,11 +16,14 @@ function TopNav() {
             height="30"
             className="d-inline-block align-top"
           />{" "}
-          React Bootstrap
+          Graphir React Client
         </Navbar.Brand>
         <Nav className="justify-content-end" activeKey="/patients">
           <Nav.Item>
-            <Nav.Link href="/patients">Patients</Nav.Link>
+            <Nav.Link href="/patients">Patients</Nav.Link>            
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link href="/physicians">Physician</Nav.Link>
           </Nav.Item>
         </Nav>
       </Container>
