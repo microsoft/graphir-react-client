@@ -46,12 +46,7 @@ function App() {
   return (
     <div className="App">
       <MainLayout>
-        {/* <AuthenticatedTemplate>
-          <Authenticated />
-        </AuthenticatedTemplate>
-        <UnauthenticatedTemplate>
-          <p>Please wait while you are signed in.</p>
-        </UnauthenticatedTemplate> */}
+        {}
       </MainLayout>
     </div>
   );
