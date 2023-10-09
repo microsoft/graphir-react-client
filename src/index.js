@@ -41,14 +41,14 @@ import ReactDOM from "react-dom/client";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { PublicClientApplication } from "@azure/msal-browser";
+// import { PublicClientApplication } from "@azure/msal-browser";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  // <React.StrictMode>
+  <React.StrictMode>
   //   <MsalProvider instance={msalInstance}>
       <App />
   //   </MsalProvider>
-  // </React.StrictMode>
+  </React.StrictMode>
 );
 
